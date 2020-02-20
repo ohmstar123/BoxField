@@ -19,7 +19,10 @@ namespace BoxField
         SolidBrush boxBrush = new SolidBrush(Color.White);
 
         //create a list to hold a column of boxes
+        
         List<Box> boxesLeft = new List<Box>();
+        List<Box> boxesRight = new List<Box>();
+
 
         //counter
         int counter;
@@ -41,6 +44,9 @@ namespace BoxField
             //TODO - set game start values
             Box b = new Box(4, 36, 10);
             boxesLeft.Add(b);
+
+            Box a = new Box(200, 36, 10);
+            boxesRight.Add(a);
 
             hero = new Box(50, 300, 20);
         }
@@ -80,10 +86,21 @@ namespace BoxField
             {
                 b.Fall();
             }
+
+            foreach (Box a in boxesLeft)
+            {
+                a.Fall();
+            }
+
             //TODO - remove box if it has gone of screen
             if (boxesLeft[0].y > 200)
             {
-                boxesLeft.RemoveAt(0);
+                boxesLeft.RemoveAt(0);        
+            }
+
+            if (boxesRight[0].y > 200)
+            {
+                boxesRight.RemoveAt(0);
             }
             //TODO - add new box if it is time
             counter++;
@@ -91,7 +108,11 @@ namespace BoxField
             {
                 Box box = new Box(4, 36, 10);
                 boxesLeft.Add(box);
+
+                Box boxRight = new Box(200, 36, 10);
                 counter = 0;
+
+
             }
 
             //move hero
@@ -113,6 +134,11 @@ namespace BoxField
             foreach (Box b in boxesLeft)
             {
                 e.Graphics.FillRectangle(boxBrush, b.x, b.y, b.size, b.size);
+            }
+
+            foreach (Box a in boxesLeft)
+            {
+                e.Graphics.FillRectangle(boxBrush, a.x, a.y, a.size, a.size);
             }
 
             e.Graphics.FillRectangle(boxBrush, hero.x, hero.y, hero.size, hero.size);
