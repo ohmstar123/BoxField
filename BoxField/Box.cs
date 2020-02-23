@@ -10,20 +10,22 @@ namespace BoxField
     class Box
     {
         public SolidBrush boxBrush;
-        public int x, y, size;
+        public int x, y, size, color;
 
-        public Box(int _x, int _y, int _size)
-        {
-            x = _x;
-            y = _y;
-            size = _size;
-        }
+        //public Box(int _x, int _y, int _size)
+        //{
+        //    x = _x;
+        //    y = _y;
+        //    size = _size;
+        //    //color = _color;
+        //}
 
         public Box(SolidBrush _boxBrush, int _x, int _y, int _size)
         {
             x = _x;
             y = _y;
             size = _size;
+            boxBrush = _boxBrush;
         }
 
         public void Fall()

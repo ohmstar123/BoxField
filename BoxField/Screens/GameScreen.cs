@@ -16,10 +16,15 @@ namespace BoxField
         Boolean leftArrowDown, rightArrowDown;
 
         //used to draw boxes on screen
+        Random randGen = new Random();
+        int alphaStart, redStart, greenStart, blueStart;
+        
+
         SolidBrush boxBrush = new SolidBrush(Color.White);
+        SolidBrush heroBrush = new SolidBrush(Color.White);
 
         //create a list to hold a column of boxes
-        
+
         List<Box> boxesLeft = new List<Box>();
         List<Box> boxesRight = new List<Box>();
 
@@ -42,13 +47,13 @@ namespace BoxField
         public void OnStart()
         {
             //TODO - set game start values
-            Box b = new Box(4, 36, 10);
+            Box b = new Box(boxBrush, 4, 36, 10);
             boxesLeft.Add(b);
 
-            Box a = new Box(200, 36, 10);
+            Box a = new Box(boxBrush, 885, 36, 10);
             boxesRight.Add(a);
 
-            hero = new Box(50, 300, 20);
+            hero = new Box(boxBrush, 50, 300, 20);
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -87,29 +92,39 @@ namespace BoxField
                 b.Fall();
             }
 
-            foreach (Box a in boxesLeft)
+            foreach (Box a in boxesRight)
             {
                 a.Fall();
             }
 
             //TODO - remove box if it has gone of screen
-            if (boxesLeft[0].y > 200)
+            if (boxesLeft[0].y > this.Height)
             {
-                boxesLeft.RemoveAt(0);        
+                boxesLeft.RemoveAt(0);
             }
 
-            if (boxesRight[0].y > 200)
+            if (boxesRight[0].y > this.Height)
             {
                 boxesRight.RemoveAt(0);
             }
             //TODO - add new box if it is time
             counter++;
-            if (counter == 5)
+            if (counter == 25)
             {
-                Box box = new Box(4, 36, 10);
+                alphaStart = randGen.Next(1, 256);
+                redStart = randGen.Next(1, 256);
+                greenStart = randGen.Next(1, 256);
+                blueStart = randGen.Next(1, 256);
+
+                boxBrush = new SolidBrush(Color.FromArgb(alphaStart, redStart, greenStart, blueStart));
+
+                
+                Box box = new Box(boxBrush, 4, 36, 10);
                 boxesLeft.Add(box);
 
-                Box boxRight = new Box(200, 36, 10);
+                Box box2 = new Box(boxBrush, 885, 36, 10);
+                boxesRight.Add(box2);
+
                 counter = 0;
 
 
@@ -136,12 +151,12 @@ namespace BoxField
                 e.Graphics.FillRectangle(boxBrush, b.x, b.y, b.size, b.size);
             }
 
-            foreach (Box a in boxesLeft)
+            foreach (Box a in boxesRight)
             {
                 e.Graphics.FillRectangle(boxBrush, a.x, a.y, a.size, a.size);
             }
 
-            e.Graphics.FillRectangle(boxBrush, hero.x, hero.y, hero.size, hero.size);
+            e.Graphics.FillRectangle(heroBrush, hero.x, hero.y, hero.size, hero.size);
         }
     }
 }
