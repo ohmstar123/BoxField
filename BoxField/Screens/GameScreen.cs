@@ -18,7 +18,7 @@ namespace BoxField
         //used to draw boxes on screen
         Random randGen = new Random();
         int alphaStart, redStart, greenStart, blueStart;
-        
+        int randomX;
 
         SolidBrush boxBrush = new SolidBrush(Color.White);
         SolidBrush heroBrush = new SolidBrush(Color.White);
@@ -109,20 +109,21 @@ namespace BoxField
             }
             //TODO - add new box if it is time
             counter++;
-            if (counter == 25)
+            if (counter == 20)
             {
                 alphaStart = randGen.Next(1, 256);
                 redStart = randGen.Next(1, 256);
                 greenStart = randGen.Next(1, 256);
                 blueStart = randGen.Next(1, 256);
+                randomX = randGen.Next(1, this.Width);
 
                 boxBrush = new SolidBrush(Color.FromArgb(alphaStart, redStart, greenStart, blueStart));
 
                 
-                Box box = new Box(boxBrush, 4, 36, 10);
+                Box box = new Box(boxBrush, randomX, 36, 10);
                 boxesLeft.Add(box);
 
-                Box box2 = new Box(boxBrush, 885, 36, 10);
+                Box box2 = new Box(boxBrush, randomX, 36, 10);
                 boxesRight.Add(box2);
 
                 counter = 0;
