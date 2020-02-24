@@ -19,8 +19,14 @@ namespace BoxField
         Random randGen = new Random();
         int alphaStart, redStart, greenStart, blueStart;
         int randomX;
+        int boxOffset = 5;
+        int patternAmount = 10;
 
-        SolidBrush boxBrush = new SolidBrush(Color.White);
+        int boxLeftX = 100;
+        int boxGap = 100;
+
+
+        SolidBrush tempBrush;
         SolidBrush heroBrush = new SolidBrush(Color.White);
 
         //create a list to hold a column of boxes
@@ -28,9 +34,12 @@ namespace BoxField
         List<Box> boxesLeft = new List<Box>();
         List<Box> boxesRight = new List<Box>();
 
+       
+
 
         //counter
         int counter;
+        int newBoxCounter = 0;
 
         //create hero values
         Box hero;
@@ -47,13 +56,24 @@ namespace BoxField
         public void OnStart()
         {
             //TODO - set game start values
-            Box b = new Box(boxBrush, 4, 36, 10);
+
+
+            alphaStart = randGen.Next(1, 256);
+            redStart = randGen.Next(1, 256);
+            greenStart = randGen.Next(1, 256);
+            blueStart = randGen.Next(1, 256);
+            randomX = randGen.Next(1, this.Width);
+
+            tempBrush = new SolidBrush(Color.FromArgb(alphaStart, redStart, greenStart, blueStart));
+            Box b = new Box(tempBrush, 4, 36, 10);
             boxesLeft.Add(b);
 
-            Box a = new Box(boxBrush, 885, 36, 10);
+            Box a = new Box(tempBrush, 885, 36, 10);
             boxesRight.Add(a);
 
-            hero = new Box(boxBrush, 50, 300, 20);
+            newBoxCounter++;
+
+            hero = new Box(tempBrush, 50, 300, 20);
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -109,24 +129,35 @@ namespace BoxField
             }
             //TODO - add new box if it is time
             counter++;
-            if (counter == 20)
+            if (counter == 5)
             {
+                boxLeftX = boxLeftX + boxOffset;
+                newBoxCounter++;
+
                 alphaStart = randGen.Next(1, 256);
                 redStart = randGen.Next(1, 256);
                 greenStart = randGen.Next(1, 256);
                 blueStart = randGen.Next(1, 256);
                 randomX = randGen.Next(1, this.Width);
 
-                boxBrush = new SolidBrush(Color.FromArgb(alphaStart, redStart, greenStart, blueStart));
+                tempBrush = new SolidBrush(Color.FromArgb(alphaStart, redStart, greenStart, blueStart));
 
                 
-                Box box = new Box(boxBrush, randomX, 36, 10);
+                Box box = new Box(tempBrush, boxLeftX, 0, 10);
                 boxesLeft.Add(box);
 
-                Box box2 = new Box(boxBrush, randomX, 36, 10);
+                Box box2 = new Box(tempBrush, boxLeftX + boxGap, 0, 10);
                 boxesRight.Add(box2);
 
                 counter = 0;
+
+                if (newBoxCounter == patternAmount)
+                {
+                    boxOffset = -boxOffset;
+                    newBoxCounter = 0;
+
+                    patternAmount = randGen.Next(1, 50);
+                }
 
 
             }
@@ -149,12 +180,12 @@ namespace BoxField
             //TODO - draw boxes to screen
             foreach (Box b in boxesLeft)
             {
-                e.Graphics.FillRectangle(boxBrush, b.x, b.y, b.size, b.size);
+                e.Graphics.FillRectangle(b.boxBrush, b.x, b.y, b.size, b.size);
             }
 
             foreach (Box a in boxesRight)
             {
-                e.Graphics.FillRectangle(boxBrush, a.x, a.y, a.size, a.size);
+                e.Graphics.FillRectangle(a.boxBrush, a.x, a.y, a.size, a.size);
             }
 
             e.Graphics.FillRectangle(heroBrush, hero.x, hero.y, hero.size, hero.size);
