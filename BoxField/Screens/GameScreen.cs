@@ -172,6 +172,18 @@ namespace BoxField
             {
                 hero.Move("right");
             }
+
+            //check for collision between hero and box
+            foreach (Box b in boxesLeft.Union(boxesRight))
+            {
+                if (b.Collision(hero))
+                {
+                    gameLoop.Enabled = false;
+                }
+
+
+            }
+
             Refresh();
         }
 

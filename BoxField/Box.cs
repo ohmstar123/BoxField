@@ -46,5 +46,27 @@ namespace BoxField
             }
         }
 
+        public Boolean Collision(Box heroBox)
+        {
+
+        
+            Rectangle heroRec = new Rectangle(heroBox.x, heroBox.y, heroBox.size, heroBox.size);
+
+            Rectangle boxRec = new Rectangle(x, y, size, size);
+
+            if (heroRec.IntersectsWith(boxRec))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+
+            }
+
+           
+            
+        }
+
     }
 }
